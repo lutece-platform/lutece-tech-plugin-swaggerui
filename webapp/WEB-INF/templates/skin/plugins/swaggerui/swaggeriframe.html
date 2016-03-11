@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swagger UI</title>
+  <link rel="stylesheet"  href="../../css/plugins/swaggerui/reset.css" type="text/css"  media="screen" />
+  <link rel="stylesheet"  href="../../css/plugins/swaggerui/screen.css" type="text/css"  media="screen" />
+  <link rel="stylesheet"  href="../../css/plugins/swaggerui/reset.css" type="text/css"  media="print" />
+  <link rel="stylesheet"  href="../../css/plugins/swaggerui/print.css" type="text/css"  media="print" />
+  <script src="../../js/jquery/jquery.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            loadSwaggerFile($( "#swagger-select" ).val());
+        });
+    </script>
+    
+    <div class="swagger-section">
+        <select id="swagger-select" onchange="loadSwaggerFile(this.value)">
+            <#list swagger_files_list as swagger_file >
+            <option value="${swagger_file.path}">Plugin ${swagger_file.pluginName} - ${swagger_file.version}</option>
+            </#list>
+        </select>
+        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+    </div>
+    
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/plugins/swaggerui/lib/jquery-1.8.0.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/jquery.slideto.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/jquery.wiggle.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/jquery.ba-bbq.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/handlebars-2.0.0.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/js-yaml.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/lodash.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/backbone-min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/swagger-ui.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/highlight.9.1.0.pack.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/highlight.9.1.0.pack_extended.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/jsoneditor.min.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/marked.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/lib/swagger-oauth.js" type="text/javascript" ></script>
+    <script src="../../js/plugins/swaggerui/swaggerui.js" type="text/javascript" ></script>
+</body>
+</html>
