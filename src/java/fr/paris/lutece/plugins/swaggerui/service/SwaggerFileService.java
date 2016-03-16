@@ -84,19 +84,23 @@ public class SwaggerFileService
     
     private static void findDirectory( List<File> listSwaggerDirectories, File parentDirectory )
     {
-        for ( File file : parentDirectory.listFiles( ) )
+        File[] listFiles = parentDirectory.listFiles( );
+        if( listFiles != null )
         {
-            if ( file.isFile( ) )
+            for ( File file : listFiles )
             {
-                continue;
-            }
-            if (file.getName( ).equals( SWAGGER_DIRECTORY_NAME ) )
-            {
-                listSwaggerDirectories.add( file );
-            }
-            if(file.isDirectory( ) )
-            {
-               findDirectory( listSwaggerDirectories, file );
+                if ( file.isFile( ) )
+                {
+                    continue;
+                }
+                if (file.getName( ).equals( SWAGGER_DIRECTORY_NAME ) )
+                {
+                    listSwaggerDirectories.add( file );
+                }
+                if(file.isDirectory( ) )
+                {
+                   findDirectory( listSwaggerDirectories, file );
+                }
             }
         }
     }

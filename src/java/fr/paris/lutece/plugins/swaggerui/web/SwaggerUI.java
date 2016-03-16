@@ -53,6 +53,7 @@ public class SwaggerUI extends MVCApplication
     private static final String VIEW_SWAGGERUI = "swaggerui";
     private static final String VIEW_SWAGGER_IFRAME = "swaggeriframe";
     private static final String MARK_SWAGGER_FILES_LIST = "swagger_files_list";
+    private static final String MARK_SWAGGER_FILES = "swagger_files";
     
     /**
      * Returns the content of the page swaggerui. 
@@ -62,7 +63,16 @@ public class SwaggerUI extends MVCApplication
     @View( value = VIEW_SWAGGERUI , defaultView = true )
     public XPage viewSwaggerUI( HttpServletRequest request )
     {
-        return getXPage( TEMPLATE_SWAGGERUI, request.getLocale(  ) );
+        Map<String, Object> model = getModel(  );
+        boolean swaggerFiles = true;
+        
+        if( SwaggerFileService.getSwaggerFiles( request ).isEmpty( ) )
+        {
+            swaggerFiles = false;
+        }
+        
+        model.put( MARK_SWAGGER_FILES, swaggerFiles );
+        return getXPage( TEMPLATE_SWAGGERUI, request.getLocale(  ), model );
     }
     
     @View( value = VIEW_SWAGGER_IFRAME )
