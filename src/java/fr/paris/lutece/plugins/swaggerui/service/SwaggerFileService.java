@@ -50,6 +50,8 @@ public class SwaggerFileService
 {
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
+    private static final String SWAGGER_DIRECTORY_PATH_REST = "/rest";
+    private static final String SWAGGER_DIRECTORY_PATH_SWAGGER = "/swagger";
     
     /**
      * Returns the list of swagger files 
@@ -70,11 +72,11 @@ public class SwaggerFileService
             for (File fileSwagger : filesSwagger)
             {
                 SwaggerFile swaggerFile = new SwaggerFile();
-                swaggerFile.setPluginName( swaggerDirectory.getParentFile().getName() );
-                swaggerFile.setVersion( fileSwagger.getParentFile().getName() );
+                swaggerFile.setPluginName( swaggerDirectory.getParentFile( ).getName( ) );
+                swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
                 
-                String relativePath = new File(AppPathService.getWebAppPath( )).toURI().relativize(fileSwagger.toURI()).getPath();
-                swaggerFile.setPath( AppPathService.getBaseUrl( request ) + relativePath );
+                String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
+                swaggerFile.setPath( AppPathService.getBaseUrl( request ) + replacePath( relativePath ) );
                 
                 listSwaggerFiles.add( swaggerFile );
             }
@@ -103,5 +105,13 @@ public class SwaggerFileService
                 }
             }
         }
+    }
+    
+    private static String replacePath( String strPath )
+    {
+        String strPathRest;
+        strPathRest = strPath.replaceAll( SWAGGER_DIRECTORY_PATH , SWAGGER_DIRECTORY_PATH_REST );
+        strPathRest = strPathRest.replaceAll( SWAGGER_DIRECTORY_PATH_SWAGGER , "" );
+        return strPathRest;
     }
 }
