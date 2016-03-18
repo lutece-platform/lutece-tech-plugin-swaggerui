@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.swaggerui.service;
 
 import fr.paris.lutece.plugins.swaggerui.business.SwaggerFile;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import java.io.File;
@@ -74,14 +75,18 @@ public class SwaggerFileService
             Collection<File> filesSwagger = FileUtils.listFiles( swaggerDirectory, filesExtension, true);
             for (File fileSwagger : filesSwagger)
             {
-                SwaggerFile swaggerFile = new SwaggerFile();
-                swaggerFile.setPluginName( swaggerDirectory.getParentFile( ).getParentFile().getName( ) );
-                swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
-                
-                String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
-                swaggerFile.setPath( AppPathService.getBaseUrl( request ) + replacePath( relativePath ) );
-                
-                listSwaggerFiles.add( swaggerFile );
+                String strPluginName = swaggerDirectory.getParentFile( ).getParentFile().getName( );
+                if( PluginService.isPluginEnable( strPluginName ) )
+                {
+                    SwaggerFile swaggerFile = new SwaggerFile();
+                    swaggerFile.setPluginName( strPluginName );
+                    swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
+
+                    String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
+                    swaggerFile.setPath( AppPathService.getBaseUrl( request ) + replacePath( relativePath ) );
+
+                    listSwaggerFiles.add( swaggerFile );
+                }
             }
         }
         return listSwaggerFiles;
