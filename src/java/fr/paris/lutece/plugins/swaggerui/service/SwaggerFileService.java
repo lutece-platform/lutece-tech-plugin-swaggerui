@@ -36,12 +36,13 @@ package fr.paris.lutece.plugins.swaggerui.service;
 import fr.paris.lutece.plugins.swaggerui.business.SwaggerFile;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
-import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This service searchs swagger.json files
@@ -50,8 +51,10 @@ public class SwaggerFileService
 {
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
-    private static final String SWAGGER_DIRECTORY_PATH_REST = "/rest";
-    private static final String SWAGGER_DIRECTORY_PATH_SWAGGER = "/swagger";
+    
+    private static final String SWAGGER_REPLACE_PATH_DIRECTORY = "plugins/";
+    private static final String SWAGGER_REPLACE_PATH_REST = "rest/";
+    private static final String SWAGGER_REPLACE_PATH_SWAGGER = "swagger/";
     
     /**
      * Returns the list of swagger files 
@@ -72,7 +75,7 @@ public class SwaggerFileService
             for (File fileSwagger : filesSwagger)
             {
                 SwaggerFile swaggerFile = new SwaggerFile();
-                swaggerFile.setPluginName( swaggerDirectory.getParentFile( ).getName( ) );
+                swaggerFile.setPluginName( swaggerDirectory.getParentFile( ).getParentFile().getName( ) );
                 swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
                 
                 String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
@@ -109,9 +112,8 @@ public class SwaggerFileService
     
     private static String replacePath( String strPath )
     {
-        String strPathRest;
-        strPathRest = strPath.replaceAll( SWAGGER_DIRECTORY_PATH , SWAGGER_DIRECTORY_PATH_REST );
-        strPathRest = strPathRest.replaceAll( SWAGGER_DIRECTORY_PATH_SWAGGER , "" );
-        return strPathRest;
+        strPath = strPath.replace( SWAGGER_REPLACE_PATH_DIRECTORY , SWAGGER_REPLACE_PATH_REST );
+        strPath = strPath.replace( SWAGGER_REPLACE_PATH_SWAGGER , StringUtils.EMPTY );
+        return strPath;
     }
 }
