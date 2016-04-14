@@ -5,19 +5,16 @@
     </properties>
     <body>
         <section name="Plugin swaggerui">
-            <!--
-            <p>
-                <img src="images/swaggerui.png" />
-            </p>
-            -->
             <subsection name="Introduction">
-                <p></p>
+                <p>Ce plugin permet d'afficher tous les fichiers swagger.json présents sur un site et de les afficher sur une seule même page en utilisant l'UI Swagger</p>
             </subsection>
             <subsection name="Configuration">
-                <p></p>
+                <p>Il suffit de placer les fichiers en suivant cette arborescence : webapp/plugins/{nom-du-plugin}/api/swagger/v{numero-de-version}/{nom-du-fichier}.json</p>
+                <p>En utilisant le pluginwizard, il crée et place le fichier swagger.json au bon endroit</p>
             </subsection>
             <subsection name="Usage">
-                <p></p>
+                <p>Il ne reste qu'à accéder à la xpage swaggerui : /jsp/site/Portal.jsp?page=swaggerui</p>
+                <p>A noter que le plugin swaggerui n'affichera que les fichiers json des plugins activés</p>
             </subsection>
         </section>
     </body>

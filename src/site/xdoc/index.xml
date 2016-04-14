@@ -5,21 +5,17 @@
     </properties>
     <body>
         <section name="Plugin swaggerui">
-            <!--
-            <p>
-                <img src="images/swaggerui.png" />
-            </p>
-            -->
             <subsection name="Introduction">
-                <p></p>
+                <p>This plugin displays all swagger.json files present on a website and display them on a single page using the Swagger UI</p>
             </subsection>
             <subsection name="Configuration">
-                <p></p>
+                <p>Simply put the files by following this tree : webapp/plugins/{name-of-the-plugin}/api/swagger/v{version-number}/{name-of-the-file}.json</p>
+                <p>Using Pluginwizard, it creates and put the file swagger.json in the right place</p>
             </subsection>
             <subsection name="Usage">
-                <p></p>
+                <p>You just have to access the xpage swaggerui : /jsp/site/Portal.jsp?page=swaggerui</p>
+                <p>Note that the plugin swaggerui only displays the json files of enabled plugins</p>
             </subsection>
         </section>
     </body>
 </document>
-
