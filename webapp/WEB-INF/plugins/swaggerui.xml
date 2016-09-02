@@ -57,7 +57,12 @@
         <javascript-file>swaggerui/swaggerui.js</javascript-file>
     </javascript-files>
 
-    <!-- Portlet parameters -->
-    <portlets>
-   </portlets>
+    <servlets>
+        <servlet>
+            <servlet-name>swaggerui-servlet</servlet-name>
+            <url-pattern>/servlet/plugins/swaggerui</url-pattern>
+            <servlet-class>fr.paris.lutece.plugins.swaggerui.web.SwaggerServlet</servlet-class>
+        </servlet>
+    </servlets>
+    
 </plug-in>

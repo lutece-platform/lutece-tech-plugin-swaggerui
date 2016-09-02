@@ -34,6 +34,7 @@
 package fr.paris.lutece.plugins.swaggerui.web;
 
 import fr.paris.lutece.plugins.swaggerui.service.SwaggerFileService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
@@ -54,6 +55,7 @@ public class SwaggerUI extends MVCApplication
     private static final String VIEW_SWAGGER_IFRAME = "swaggeriframe";
     private static final String MARK_SWAGGER_FILES_LIST = "swagger_files_list";
     private static final String MARK_SWAGGER_FILES = "swagger_files";
+    private static final String MARK_BASE_URL = "base_url";
     
     /**
      * Returns the content of the page swaggerui. 
@@ -80,6 +82,7 @@ public class SwaggerUI extends MVCApplication
     {
         Map<String, Object> model = getModel(  );
         model.put( MARK_SWAGGER_FILES_LIST, SwaggerFileService.getSwaggerFiles( request ) );
+        model.put( MARK_BASE_URL , AppPathService.getBaseUrl( request ));
 
         XPage iFrame = getXPage( TEMPLATE_SWAGGERIFRAME, request.getLocale(  ), model );
         iFrame.setStandalone(true);

@@ -43,7 +43,6 @@ import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * This service searchs swagger.json files
@@ -52,10 +51,7 @@ public class SwaggerFileService
 {
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
-    
-    private static final String SWAGGER_REPLACE_PATH_DIRECTORY = "plugins/";
-    private static final String SWAGGER_REPLACE_PATH_REST = "rest/";
-    private static final String SWAGGER_REPLACE_PATH_SWAGGER = "swagger/";
+    private static final String SERVLET_PATH = "servlet/plugins/swaggerui?file=/";
     
     /**
      * Returns the list of swagger files 
@@ -83,7 +79,7 @@ public class SwaggerFileService
                     swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
 
                     String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
-                    swaggerFile.setPath( AppPathService.getBaseUrl( request ) + replacePath( relativePath ) );
+                    swaggerFile.setPath( AppPathService.getBaseUrl( request ) + SERVLET_PATH + relativePath );
 
                     listSwaggerFiles.add( swaggerFile );
                 }
@@ -115,10 +111,4 @@ public class SwaggerFileService
         }
     }
     
-    private static String replacePath( String strPath )
-    {
-        strPath = strPath.replace( SWAGGER_REPLACE_PATH_DIRECTORY , SWAGGER_REPLACE_PATH_REST );
-        strPath = strPath.replace( SWAGGER_REPLACE_PATH_SWAGGER , StringUtils.EMPTY );
-        return strPath;
-    }
 }
