@@ -31,7 +31,7 @@
         </dependency>
     </dependencies>
 
-	<properties>
+    <properties>
         <componentName>swaggerui</componentName>
         <jiraProjectName>SWAGGERUI</jiraProjectName>
         <jiraComponentId>12954</jiraComponentId>
