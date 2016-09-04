@@ -51,7 +51,7 @@ public class SwaggerFileService
 {
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
-    private static final String SERVLET_PATH = "servlet/plugins/swaggerui?file=/";
+    private static final String SERVLET_PATH = "servlet/plugins/swaggerui/";
 
     /**
      * Returns the list of swagger files

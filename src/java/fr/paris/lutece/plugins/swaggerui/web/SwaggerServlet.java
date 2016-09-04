@@ -77,7 +77,9 @@ public class SwaggerServlet extends HttpServlet
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        String strFile = request.getParameter( PARAMETER_FILE );
+        String strPathInfo = request.getPathInfo();
+        int nPos = strPathInfo.indexOf( "/plugins" );
+        String strFile = strPathInfo.substring( nPos );
         String strFileUrl = AppPathService.getAbsolutePathFromRelativePath( strFile );
         String strFileContent = readFile( strFileUrl, StandardCharsets.UTF_8 );
 
