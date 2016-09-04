@@ -46,7 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * This class provides a simple implementation of an XPage
  */
-@Controller( xpageName = "swaggerui" , pageTitleI18nKey = "swaggerui.xpage.swaggerui.pageTitle" , pagePathI18nKey = "swaggerui.xpage.swaggerui.pagePathLabel" )
+@Controller( xpageName = "swaggerui", pageTitleI18nKey = "swaggerui.xpage.swaggerui.pageTitle", pagePathI18nKey = "swaggerui.xpage.swaggerui.pagePathLabel" )
 public class SwaggerUI extends MVCApplication
 {
     private static final String TEMPLATE_SWAGGERUI = "/skin/plugins/swaggerui/swaggerui.html";
@@ -56,36 +56,43 @@ public class SwaggerUI extends MVCApplication
     private static final String MARK_SWAGGER_FILES_LIST = "swagger_files_list";
     private static final String MARK_SWAGGER_FILES = "swagger_files";
     private static final String MARK_BASE_URL = "base_url";
-    
+
     /**
-     * Returns the content of the page swaggerui. 
-     * @param request The HTTP request
+     * Returns the content of the page swaggerui.
+     * 
+     * @param request
+     *            The HTTP request
      * @return The view
      */
-    @View( value = VIEW_SWAGGERUI , defaultView = true )
+    @View( value = VIEW_SWAGGERUI, defaultView = true )
     public XPage viewSwaggerUI( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         boolean swaggerFiles = true;
-        
-        if( SwaggerFileService.getSwaggerFiles( request ).isEmpty( ) )
+
+        if ( SwaggerFileService.getSwaggerFiles( request ).isEmpty( ) )
         {
             swaggerFiles = false;
         }
-        
+
         model.put( MARK_SWAGGER_FILES, swaggerFiles );
-        return getXPage( TEMPLATE_SWAGGERUI, request.getLocale(  ), model );
+        return getXPage( TEMPLATE_SWAGGERUI, request.getLocale( ), model );
     }
-    
+
+    /**
+     * Displays SwaggerUI iframe
+     * @param request The HTTP request
+     * @return The iframe
+     */
     @View( value = VIEW_SWAGGER_IFRAME )
     public XPage viewSwaggerIFrame( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel(  );
+        Map<String, Object> model = getModel( );
         model.put( MARK_SWAGGER_FILES_LIST, SwaggerFileService.getSwaggerFiles( request ) );
-        model.put( MARK_BASE_URL , AppPathService.getBaseUrl( request ));
+        model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
 
-        XPage iFrame = getXPage( TEMPLATE_SWAGGERIFRAME, request.getLocale(  ), model );
-        iFrame.setStandalone(true);
+        XPage iFrame = getXPage( TEMPLATE_SWAGGERIFRAME, request.getLocale( ), model );
+        iFrame.setStandalone( true );
         return iFrame;
     }
 }

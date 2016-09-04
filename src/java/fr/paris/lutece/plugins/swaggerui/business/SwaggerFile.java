@@ -30,14 +30,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.plugins.swaggerui.business;
 
 import java.io.Serializable;
 
 /**
  * This is the business class for the object SwaggerFile
- */ 
+ */
 public class SwaggerFile implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -48,6 +48,7 @@ public class SwaggerFile implements Serializable
 
     /**
      * Returns the PluginName
+     * 
      * @return The PluginName
      */
     public String getPluginName( )
@@ -57,15 +58,18 @@ public class SwaggerFile implements Serializable
 
     /**
      * Sets the PluginName
-     * @param strPluginName The PluginName
-     */ 
+     * 
+     * @param strPluginName
+     *            The PluginName
+     */
     public void setPluginName( String strPluginName )
     {
         _strPluginName = strPluginName;
     }
-    
+
     /**
      * Returns the Version
+     * 
      * @return The Version
      */
     public String getVersion( )
@@ -75,15 +79,18 @@ public class SwaggerFile implements Serializable
 
     /**
      * Sets the Version
-     * @param strVersion The Version
-     */ 
+     * 
+     * @param strVersion
+     *            The Version
+     */
     public void setVersion( String strVersion )
     {
         _strVersion = strVersion;
     }
-    
+
     /**
      * Returns the Path
+     * 
      * @return The Path
      */
     public String getPath( )
@@ -93,8 +100,10 @@ public class SwaggerFile implements Serializable
 
     /**
      * Sets the Path
-     * @param strPath The Path
-     */ 
+     * 
+     * @param strPath
+     *            The Path
+     */
     public void setPath( String strPath )
     {
         _strPath = strPath;

@@ -51,7 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * SwaggerServlet serve swagger files with dynamic host and base path 
+ * SwaggerServlet serve swagger files with dynamic host and base path
  */
 public class SwaggerServlet extends HttpServlet
 {
@@ -64,72 +64,87 @@ public class SwaggerServlet extends HttpServlet
     private static final String MARK_CONTEXT = "context";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        String strFile = request.getParameter(PARAMETER_FILE);
-        String strFileUrl = AppPathService.getAbsolutePathFromRelativePath(strFile);
-        String strFileContent = readFile( strFileUrl , StandardCharsets.UTF_8 );
+        String strFile = request.getParameter( PARAMETER_FILE );
+        String strFileUrl = AppPathService.getAbsolutePathFromRelativePath( strFile );
+        String strFileContent = readFile( strFileUrl, StandardCharsets.UTF_8 );
 
-        Map<String, String> model = new HashMap<String, String>();
-        model.put(MARK_HOST, request.getServerName() );
-        model.put(MARK_PORT, String.valueOf(request.getServerPort() ));
-        model.put(MARK_CONTEXT, request.getContextPath());
+        Map<String, String> model = new HashMap<String, String>( );
+        model.put( MARK_HOST, request.getServerName( ) );
+        model.put( MARK_PORT, String.valueOf( request.getServerPort( ) ) );
+        model.put( MARK_CONTEXT, request.getContextPath( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl(strFileContent, Locale.getDefault(), model);
-        String strNewContent = template.getHtml();
+        HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strFileContent, Locale.getDefault( ), model );
+        String strNewContent = template.getHtml( );
 
-        response.setContentType(CONTENT_TYPE_JSON);
+        response.setContentType( CONTENT_TYPE_JSON );
 
-        OutputStream out = response.getOutputStream();
-        out.write(strNewContent.getBytes());
-        out.flush();
-        out.close();
+        OutputStream out = response.getOutputStream( );
+        out.write( strNewContent.getBytes( ) );
+        out.flush( );
+        out.close( );
 
     }
 
-    private static String readFile(String strFilePath, Charset encoding) throws IOException
+    /**
+     * Read a File and returns its content as a string.
+     * @param strFilePath The file path
+     * @param encoding The encoding
+     * @return The file content
+     * @throws IOException If an error occurs
+     */
+    private static String readFile( String strFilePath, Charset encoding ) throws IOException
     {
-        byte[] encoded = Files.readAllBytes(Paths.get(strFilePath));
-        return new String(encoded, encoding);
+        byte [ ] encoded = Files.readAllBytes( Paths.get( strFilePath ) );
+        return new String( encoded, encoding );
     }
 
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        processRequest(request, response);
+        processRequest( request, response );
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        processRequest(request, response);
+        processRequest( request, response );
     }
 
     /**
@@ -138,7 +153,7 @@ public class SwaggerServlet extends HttpServlet
      * @return message
      */
     @Override
-    public String getServletInfo()
+    public String getServletInfo( )
     {
         return "Servlet serving swagger files with dynamic host and basepath";
     }

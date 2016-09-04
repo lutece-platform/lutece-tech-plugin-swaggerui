@@ -52,29 +52,32 @@ public class SwaggerFileService
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
     private static final String SERVLET_PATH = "servlet/plugins/swaggerui?file=/";
-    
+
     /**
-     * Returns the list of swagger files 
-     * @param request
+     * Returns the list of swagger files
+     * 
+     * @param request The HTTP request
      * @return The list of swagger files
      */
     public static List<SwaggerFile> getSwaggerFiles( HttpServletRequest request )
     {
-        List<SwaggerFile> listSwaggerFiles = new ArrayList<>();
+        List<SwaggerFile> listSwaggerFiles = new ArrayList<>( );
         List<File> listSwaggerDirectories = new ArrayList<>( );
-        String[] filesExtension = {"json"};
+        String [ ] filesExtension = {
+            "json"
+        };
         File folderWebApp = new File( AppPathService.getWebAppPath( ) + SWAGGER_DIRECTORY_PATH );
         findDirectory( listSwaggerDirectories, folderWebApp );
-        
+
         for ( File swaggerDirectory : listSwaggerDirectories )
         {
-            Collection<File> filesSwagger = FileUtils.listFiles( swaggerDirectory, filesExtension, true);
-            for (File fileSwagger : filesSwagger)
+            Collection<File> filesSwagger = FileUtils.listFiles( swaggerDirectory, filesExtension, true );
+            for ( File fileSwagger : filesSwagger )
             {
-                String strPluginName = swaggerDirectory.getParentFile( ).getParentFile().getName( );
-                if( PluginService.isPluginEnable( strPluginName ) )
+                String strPluginName = swaggerDirectory.getParentFile( ).getParentFile( ).getName( );
+                if ( PluginService.isPluginEnable( strPluginName ) )
                 {
-                    SwaggerFile swaggerFile = new SwaggerFile();
+                    SwaggerFile swaggerFile = new SwaggerFile( );
                     swaggerFile.setPluginName( strPluginName );
                     swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
 
@@ -87,11 +90,16 @@ public class SwaggerFileService
         }
         return listSwaggerFiles;
     }
-    
+
+    /**
+     * Find directories that contains swagger files
+     * @param listSwaggerDirectories The directory list
+     * @param parentDirectory The parent directory
+     */
     private static void findDirectory( List<File> listSwaggerDirectories, File parentDirectory )
     {
-        File[] listFiles = parentDirectory.listFiles( );
-        if( listFiles != null )
+        File [ ] listFiles = parentDirectory.listFiles( );
+        if ( listFiles != null )
         {
             for ( File file : listFiles )
             {
@@ -99,16 +107,16 @@ public class SwaggerFileService
                 {
                     continue;
                 }
-                if (file.getName( ).equals( SWAGGER_DIRECTORY_NAME ) )
+                if ( file.getName( ).equals( SWAGGER_DIRECTORY_NAME ) )
                 {
                     listSwaggerDirectories.add( file );
                 }
-                if(file.isDirectory( ) )
+                if ( file.isDirectory( ) )
                 {
-                   findDirectory( listSwaggerDirectories, file );
+                    findDirectory( listSwaggerDirectories, file );
                 }
             }
         }
     }
-    
+
 }
