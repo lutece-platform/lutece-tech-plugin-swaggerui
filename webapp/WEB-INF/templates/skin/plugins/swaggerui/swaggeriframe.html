@@ -51,7 +51,7 @@
       
       function loadSwaggerFile( selected ){
           url = selected;
-          $("#badge").attr("src", 'http://online.swagger.io/validator?url=' + url );
+          $("#badge").attr("src", 'http://online.swagger.io/validator?url=' + encodeURIComponent( url ) );
       };
     $(function () {
         
