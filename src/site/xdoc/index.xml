@@ -5,8 +5,12 @@
     </properties>
     <body>
         <section name="Plugin swaggerui">
+            <p>
+                <img src="images/swagger-logo.png" />
+            </p>
             <subsection name="Introduction">
-                <p>This plugin displays all swagger.json files present on a website and display them on a single page using the Swagger UI</p>
+                <p>This plugin displays all swagger.json files present on a website 
+                    and display them on a single page using the <a href="swagger.io">Swagger</a> UI</p>
             </subsection>
             <subsection name="Configuration">
                 <p>Simply put the files by following this tree : webapp/plugins/{name-of-the-plugin}/api/swagger/v{version-number}/{name-of-the-file}.json</p>

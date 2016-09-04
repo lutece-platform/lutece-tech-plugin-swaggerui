@@ -28,32 +28,6 @@
         </application>
     </applications>
     
-    <!-- Specific plugin CSS stylesheets -->
-    <css-stylesheets>
-        <css-stylesheets-scope>xpage</css-stylesheets-scope>
-        <css-stylesheet>swaggerui/reset.css</css-stylesheet>
-        <css-stylesheet>swaggerui/screen.css</css-stylesheet>
-    </css-stylesheets>
-    
-    <javascript-files>
-        <javascript-files-scope>xpage</javascript-files-scope>
-        <javascript-file>swaggerui/lib/jquery-1.8.0.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/jquery.slideto.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/jquery.wiggle.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/jquery.ba-bbq.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/handlebars-2.0.0.js</javascript-file>
-        <javascript-file>swaggerui/lib/js-yaml.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/lodash.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/backbone-min.js</javascript-file>
-        <javascript-file>swaggerui/swagger-ui.js</javascript-file>
-        <javascript-file>swaggerui/lib/highlight.9.1.0.pack.js</javascript-file>
-        <javascript-file>swaggerui/lib/highlight.9.1.0.pack_extended.js</javascript-file>
-        <javascript-file>swaggerui/lib/jsoneditor.min.js</javascript-file>
-        <javascript-file>swaggerui/lib/marked.js</javascript-file>
-        <javascript-file>swaggerui/lib/swagger-oauth.js</javascript-file>
-        <javascript-file>swaggerui/swaggerui.js</javascript-file>
-    </javascript-files>
-
     <servlets>
         <servlet>
             <servlet-name>swaggerui-servlet</servlet-name>
