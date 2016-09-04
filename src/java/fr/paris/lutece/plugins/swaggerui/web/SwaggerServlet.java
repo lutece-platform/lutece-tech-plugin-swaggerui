@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Locale;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -83,7 +83,7 @@ public class SwaggerServlet extends HttpServlet
         String strFileUrl = AppPathService.getAbsolutePathFromRelativePath( strFile );
         String strFileContent = readFile( strFileUrl, StandardCharsets.UTF_8 );
 
-        Map<String, String> model = new HashMap<String, String>( );
+        Map<String, String> model = new ConcurrentHashMap<String, String>( );
         model.put( MARK_HOST, request.getServerName( ) );
         model.put( MARK_PORT, String.valueOf( request.getServerPort( ) ) );
         model.put( MARK_CONTEXT, request.getContextPath( ) );

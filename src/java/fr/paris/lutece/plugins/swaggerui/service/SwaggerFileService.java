@@ -47,12 +47,20 @@ import org.apache.commons.io.FileUtils;
 /**
  * This service searchs swagger.json files
  */
-public class SwaggerFileService
+public abstract class SwaggerFileService
 {
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
     private static final String SERVLET_PATH = "servlet/plugins/swaggerui/";
 
+    
+    /**
+     * private constructor
+     */
+    private SwaggerFileService()
+    {
+    }
+    
     /**
      * Returns the list of swagger files
      * 
