@@ -1,9 +1,11 @@
 
 #Plugin swaggerui
 
+![](http://dev.lutece.paris.fr/plugins/plugin-swaggerui/images/swagger-logo.png)
+
 ##Introduction
 
-This plugin displays all swagger.json files present on a website and display them on a single page using the Swagger UI
+This plugin displays all swagger.json files present on a website and display them on a single page using the [Swagger](swagger.io) UI
 
 ##Configuration
 
