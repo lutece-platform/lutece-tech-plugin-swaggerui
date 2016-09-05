@@ -25,8 +25,7 @@
         <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
     </div>
    
-    <img id="badge">
-    
+   
  <script src="../../js/bootstrap.min.js"></script>
 
     
@@ -51,17 +50,8 @@
       
       function loadSwaggerFile( selected ){
           url = selected;
-          $("#badge").attr("src", 'http://online.swagger.io/validator?url=' + encodeURIComponent( url ) );
       };
     $(function () {
-        
-/*      var url = window.location.search.match(/url=([^&]+)/);
-      if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
-      } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
-      }
-*/
         
       
       hljs.configure({
