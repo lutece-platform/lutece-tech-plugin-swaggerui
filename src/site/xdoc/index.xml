@@ -9,12 +9,33 @@
                 <img src="images/swagger-logo.png" />
             </p>
             <subsection name="Introduction">
-                <p>This plugin displays all swagger.json files present on a website 
+                <p>This plugin displays all JSON or YAML swagger files present on a website 
                     and display them on a single page using the <a href="swagger.io">Swagger</a> UI</p>
             </subsection>
             <subsection name="Configuration">
-                <p>Simply put the files by following this tree : webapp/plugins/{name-of-the-plugin}/api/swagger/v{version-number}/{name-of-the-file}.json</p>
+                <p>Simply put the files by following this tree : webapp/plugins/{name-of-the-plugin}/api/swagger/v{version-number}/{name-of-the-file}[.json/.yaml]</p>
                 <p>Using Pluginwizard, it creates and put the file swagger.json in the right place</p>
+                <p>
+                    For API deployed on several servers, it's possible to use variables into JSON or YAML files <b>host</b>, <b>port</b> et <b>context</b> 
+                    as follow :   
+                </p>
+                <p>
+                   <div class="source">
+<pre>
+"host": "${host}:${port}",
+"basePath": "${context}/rest/lutecetools"
+</pre>
+                   </div>
+                </p>
+                <p>or in YAML</p>
+                <p>
+                   <div class="source">
+<pre>
+host: '${host}:${port}'
+basePath: '${context}/rest/lutecetools'
+</pre>
+                   </div>
+                </p>
             </subsection>
             <subsection name="Usage">
                 <p>You just have to access the xpage swaggerui : /jsp/site/Portal.jsp?page=swaggerui</p>
