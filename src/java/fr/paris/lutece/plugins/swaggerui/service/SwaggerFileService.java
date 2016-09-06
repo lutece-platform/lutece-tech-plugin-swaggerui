@@ -49,6 +49,9 @@ import org.apache.commons.io.FileUtils;
  */
 public abstract class SwaggerFileService
 {
+    public static final String EXT_JSON = "json";
+    public static final String EXT_YAML = "yaml";
+
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
     private static final String SERVLET_PATH = "servlet/plugins/swaggerui/";
@@ -72,7 +75,7 @@ public abstract class SwaggerFileService
         List<SwaggerFile> listSwaggerFiles = new ArrayList<>( );
         List<File> listSwaggerDirectories = new ArrayList<>( );
         String [ ] filesExtension = {
-            "json"
+            EXT_JSON , EXT_YAML
         };
         File folderWebApp = new File( AppPathService.getWebAppPath( ) + SWAGGER_DIRECTORY_PATH );
         findDirectory( listSwaggerDirectories, folderWebApp );

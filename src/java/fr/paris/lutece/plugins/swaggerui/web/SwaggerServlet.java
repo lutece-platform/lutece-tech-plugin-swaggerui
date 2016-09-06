@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.plugins.swaggerui.web;
 
+import fr.paris.lutece.plugins.swaggerui.service.SwaggerFileService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -57,8 +58,8 @@ public class SwaggerServlet extends HttpServlet
 {
 
     private static final long serialVersionUID = -5713203328367191908L;
-    private static final String PARAMETER_FILE = "file";
     private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String CONTENT_TYPE_YAML = "application/x-yaml";
     private static final String MARK_HOST = "host";
     private static final String MARK_PORT = "port";
     private static final String MARK_CONTEXT = "context";
@@ -90,8 +91,13 @@ public class SwaggerServlet extends HttpServlet
 
         HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strFileContent, Locale.getDefault( ), model );
         String strNewContent = template.getHtml( );
-
-        response.setContentType( CONTENT_TYPE_JSON );
+        
+        String strContentType = CONTENT_TYPE_JSON;
+        if( strFile.endsWith( SwaggerFileService.EXT_YAML))
+        {
+            strContentType = CONTENT_TYPE_YAML;
+        }
+        response.setContentType( strContentType );
 
         OutputStream out = response.getOutputStream( );
         out.write( strNewContent.getBytes( ) );
