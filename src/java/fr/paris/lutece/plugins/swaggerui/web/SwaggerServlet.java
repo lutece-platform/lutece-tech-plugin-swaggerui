@@ -100,7 +100,7 @@ public class SwaggerServlet extends HttpServlet
         response.setContentType( strContentType );
 
         OutputStream out = response.getOutputStream( );
-        out.write( strNewContent.getBytes( ) );
+        out.write( strNewContent.getBytes( StandardCharsets.UTF_8 ) );
         out.flush( );
         out.close( );
 
