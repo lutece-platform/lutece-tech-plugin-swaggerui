@@ -35,8 +35,11 @@ package fr.paris.lutece.plugins.swaggerui.web;
 
 import fr.paris.lutece.plugins.swaggerui.service.SwaggerFileService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -82,6 +85,12 @@ public class SwaggerServlet extends HttpServlet
         int nPos = strPathInfo.indexOf( "/plugins" );
         String strFile = strPathInfo.substring( nPos );
         String strFileUrl = AppPathService.getAbsolutePathFromRelativePath( strFile );
+
+        if ( SecurityUtil.containsPathManipulationChars( request, strFileUrl ) )
+        {
+            throw new AppException( "Invalid File Url" ) ;
+        }
+
         String strFileContent = readFile( strFileUrl, StandardCharsets.UTF_8 );
 
         Map<String, String> model = new ConcurrentHashMap<String, String>( );
