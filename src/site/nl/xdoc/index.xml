@@ -9,16 +9,14 @@
                 <img src="images/swagger-logo.png"/>
             </p>
             <subsection name="Introduction">
-                <p>Ce plugin permet d'afficher tous les fichiers swagger au format JSON ou YAML présents 
-                    sur un site et de les afficher sur une seule même page 
-                    en utilisant l'UI <a href="swagger.io">Swagger</a> UI</p>
+                <p>This plugin displays all JSON or YAML swagger files present on a website 
+                    and display them on a single page using the <a href="swagger.io">Swagger</a> UI</p>
             </subsection>
             <subsection name="Configuration">
-                <p>webapp/plugins/{nom-du-plugin}/api/swagger/v{numero-de-version}/{nom-du-fichier}[.json/.yaml]</p>
-                <p>En utilisant le pluginwizard, il crée et place le fichier swagger.json au bon endroit</p>
+                <p>Simply put the files by following this tree : webapp/plugins/{name-of-the-plugin}/api/swagger/v{version-number}/{name-of-the-file}[.json/.yaml]</p>
+                <p>Using Pluginwizard, it creates and put the file swagger.json in the right place</p>
                 <p>
-                    Pour des API déployées sur plusieurs serveurs, il est possible d'utiliser dans les fichiers JSON ou YAML
-                    des variables <b>host</b>, <b>port</b> et <b>context</b> 
+                    For API deployed on several servers, it's possible to use variables into JSON or YAML files <b>host</b>, <b>port</b> et <b>context</b> 
                     as follow :   
                 </p>
                 <p>
@@ -29,7 +27,7 @@
 </pre>
                    </div>
                 </p>
-                <p>ou en YAML</p>
+                <p>or in YAML</p>
                 <p>
                    <div class="source">
 <pre>
@@ -40,8 +38,8 @@ basePath: '${context}/rest/lutecetools'
                 </p>
             </subsection>
             <subsection name="Usage">
-                <p>Il ne reste qu'à accéder à la xpage swaggerui :</p>
-                <p>A noter que le plugin swaggerui n'affichera que les fichiers JSON ou YAML des plugins activés</p>
+                <p>You just have to access the xpage swaggerui : /jsp/site/Portal.jsp?page=swaggerui</p>
+                <p>Note that the plugin swaggerui only displays the json files of enabled plugins</p>
             </subsection>
         </section>
     </body>
