@@ -6,15 +6,9 @@
   <link rel="stylesheet"  href="../../css/plugins/swaggerui/screen.css" type="text/css"  media="screen" />
   <link rel="stylesheet"  href="../../css/plugins/swaggerui/reset.css" type="text/css"  media="print" />
   <link rel="stylesheet"  href="../../css/plugins/swaggerui/print.css" type="text/css"  media="print" />
-  <script src="../../js/jquery/jquery.min.js"></script>
 </head>
 
 <body>
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            loadSwaggerFile($( "#swagger-select" ).val());
-        });
-    </script>
     
     <div class="swagger-section">
         <select class="form-control" id="swagger-select" onchange="loadSwaggerFile(this.value)">
@@ -22,12 +16,9 @@
             <option value="${swagger_file.path}">Plugin ${swagger_file.pluginName} - ${swagger_file.version}</option>
             </#list>
         </select>
+        <div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
         <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
     </div>
-   
-   
- <script src="../../js/bootstrap.min.js"></script>
-
     
   <script src='../../js/plugins/swaggerui/lib/object-assign-pollyfill.js' type='text/javascript'></script>
   <script src='../../js/plugins/swaggerui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
@@ -43,10 +34,30 @@
   <script src='../../js/plugins/swaggerui/lib/jsoneditor.min.js' type='text/javascript'></script>
   <script src='../../js/plugins/swaggerui/lib/marked.js' type='text/javascript'></script>
   <script src='../../js/plugins/swaggerui/lib/swagger-oauth.js' type='text/javascript'></script>
+  <!-- Some basic translations -->
+  <script src='../../js/plugins/swaggerui/lang/translator.js' type='text/javascript'></script>
+  <#if .locale?starts_with("ca")><#assign lang="ca"/>
+  <#elseif .locale?starts_with("el")><#assign lang="el"/>
+  <#elseif .locale?starts_with("es")><#assign lang="es"/>
+  <#elseif .locale?starts_with("fr")><#assign lang="fr"/>
+  <#elseif .locale?starts_with("ka")><#assign lang="geo"/>
+  <#elseif .locale?starts_with("it")><#assign lang="it"/>
+  <#elseif .locale?starts_with("ja")><#assign lang="ja"/>
+  <#elseif .locale?starts_with("ko_KR")><#assign lang="ko-kr"/>
+  <#elseif .locale?starts_with("pl")><#assign lang="pl"/>
+  <#elseif .locale?starts_with("pt")><#assign lang="pt"/>
+  <#elseif .locale?starts_with("ru")><#assign lang="ru"/>
+  <#elseif .locale?starts_with("tr")><#assign lang="tr"/>
+  <#elseif .locale?starts_with("zh_CN")><#assign lang="zh-cn"/>
+  <#else><#assign lang="en"/>
+  </#if>
+  <script src='../../js/plugins/swaggerui/lang/${lang}.js' type='text/javascript'></script>
 
-  
   <script type="text/javascript">
-      var url;
+	  $( document ).ready(function() {
+	      loadSwaggerFile($( "#swagger-select" ).val());
+	  });    
+  		var url;
       
       function loadSwaggerFile( selected ){
           url = selected;
