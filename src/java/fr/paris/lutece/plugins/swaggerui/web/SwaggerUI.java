@@ -39,16 +39,24 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.util.mvc.xpage.MVCApplication;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 
 /**
  * This class provides a simple implementation of an XPage
  */
+@RequestScoped
+@Named( "swaggerui.xpage.swaggerui" )
 @Controller( xpageName = "swaggerui", pageTitleI18nKey = "swaggerui.xpage.swaggerui.pageTitle", pagePathI18nKey = "swaggerui.xpage.swaggerui.pagePathLabel" )
 public class SwaggerUI extends MVCApplication
 {
+    @Inject
+    private Models _model;
+
     private static final String TEMPLATE_SWAGGERUI = "/skin/plugins/swaggerui/swaggerui.html";
     private static final String TEMPLATE_SWAGGERIFRAME = "/skin/plugins/swaggerui/swaggeriframe.html";
     private static final String VIEW_SWAGGERUI = "swaggerui";
@@ -67,7 +75,7 @@ public class SwaggerUI extends MVCApplication
     @View( value = VIEW_SWAGGERUI, defaultView = true )
     public XPage viewSwaggerUI( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel( );
+        Models model = _model;
         boolean swaggerFiles = true;
 
         if ( SwaggerFileService.getSwaggerFiles( request ).isEmpty( ) )
@@ -87,7 +95,7 @@ public class SwaggerUI extends MVCApplication
     @View( value = VIEW_SWAGGER_IFRAME )
     public XPage viewSwaggerIFrame( HttpServletRequest request )
     {
-        Map<String, Object> model = getModel( );
+        Models model = _model;
         model.put( MARK_SWAGGER_FILES_LIST, SwaggerFileService.getSwaggerFiles( request ) );
         model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
 
