@@ -35,8 +35,8 @@ package fr.paris.lutece.plugins.swaggerui.web;
 
 import fr.paris.lutece.plugins.swaggerui.service.SwaggerFileService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -63,6 +63,7 @@ public class SwaggerServlet extends HttpServlet
     private static final String MARK_HOST = "host";
     private static final String MARK_PORT = "port";
     private static final String MARK_CONTEXT = "context";
+    private static final String PATH_INFO_PREFIX = "/swaggerui/";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -78,11 +79,18 @@ public class SwaggerServlet extends HttpServlet
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        String strPathInfo = request.getPathInfo();
-        int nPos = strPathInfo.indexOf( "/plugins" );
-        String strFile = strPathInfo.substring( nPos );
-        String strFileUrl = AppPathService.getAbsolutePathFromRelativePath( strFile );
-        String strFileContent = readFile( strFileUrl, StandardCharsets.UTF_8 );
+        String strPathInfo = request.getPathInfo( );
+        File fileSwagger = null;
+        if ( strPathInfo != null && strPathInfo.startsWith( PATH_INFO_PREFIX ) )
+        {
+            fileSwagger = SwaggerFileService.getSwaggerFile( strPathInfo.substring( PATH_INFO_PREFIX.length( ) ) );
+        }
+        if ( fileSwagger == null )
+        {
+            response.sendError( HttpServletResponse.SC_NOT_FOUND );
+            return;
+        }
+        String strFileContent = readFile( fileSwagger.getPath( ), StandardCharsets.UTF_8 );
 
         Map<String, String> model = new ConcurrentHashMap<String, String>( );
         model.put( MARK_HOST, request.getServerName( ) );
@@ -93,11 +101,12 @@ public class SwaggerServlet extends HttpServlet
         String strNewContent = template.getHtml( );
         
         String strContentType = CONTENT_TYPE_JSON;
-        if( strFile.endsWith( SwaggerFileService.EXT_YAML))
+        if ( fileSwagger.getName( ).endsWith( SwaggerFileService.EXT_YAML ) )
         {
             strContentType = CONTENT_TYPE_YAML;
         }
         response.setContentType( strContentType );
+        response.setCharacterEncoding( StandardCharsets.UTF_8.name( ) );
 
         OutputStream out = response.getOutputStream( );
         out.write( strNewContent.getBytes( StandardCharsets.UTF_8 ) );

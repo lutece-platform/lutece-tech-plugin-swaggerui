@@ -64,6 +64,7 @@ public class SwaggerUI extends MVCApplication
     private static final String MARK_SWAGGER_FILES_LIST = "swagger_files_list";
     private static final String MARK_SWAGGER_FILES = "swagger_files";
     private static final String MARK_BASE_URL = "base_url";
+    private static final String MARK_LOCALE = "locale";
 
     /**
      * Returns the content of the page swaggerui.
@@ -78,7 +79,7 @@ public class SwaggerUI extends MVCApplication
         Models model = _model;
         boolean swaggerFiles = true;
 
-        if ( SwaggerFileService.getSwaggerFiles( request ).isEmpty( ) )
+        if ( SwaggerFileService.getSwaggerFiles( AppPathService.getBaseUrl( request ) ).isEmpty( ) )
         {
             swaggerFiles = false;
         }
@@ -96,8 +97,9 @@ public class SwaggerUI extends MVCApplication
     public XPage viewSwaggerIFrame( HttpServletRequest request )
     {
         Models model = _model;
-        model.put( MARK_SWAGGER_FILES_LIST, SwaggerFileService.getSwaggerFiles( request ) );
+        model.put( MARK_SWAGGER_FILES_LIST, SwaggerFileService.getSwaggerFiles( AppPathService.getBaseUrl( request ) ) );
         model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_LOCALE, request.getLocale( ).getLanguage( ) );
 
         XPage iFrame = getXPage( TEMPLATE_SWAGGERIFRAME, request.getLocale( ), model );
         iFrame.setStandalone( true );

@@ -39,67 +39,122 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.Map;
+import java.util.TreeMap;
 import org.apache.commons.io.FileUtils;
 
 /**
  * This service searchs swagger.json files
  */
-public abstract class SwaggerFileService
+public final class SwaggerFileService
 {
     public static final String EXT_JSON = "json";
     public static final String EXT_YAML = "yaml";
 
     private static final String SWAGGER_DIRECTORY_NAME = "swagger";
     private static final String SWAGGER_DIRECTORY_PATH = "/plugins";
+    private static final String MODULES_DIRECTORY_NAME = "modules";
+    private static final String MODULE_NAME_SEPARATOR = "-";
     private static final String SERVLET_PATH = "servlet/plugins/swaggerui/";
 
-    
     /**
      * private constructor
      */
-    private SwaggerFileService()
+    private SwaggerFileService( )
     {
     }
-    
+
     /**
-     * Returns the list of swagger files
+     * Returns the list of swagger files of the enabled plugins, sorted by path
      * 
-     * @param request The HTTP request
+     * @param strBaseUrl
+     *            The base url of the webapp
      * @return The list of swagger files
      */
-    public static List<SwaggerFile> getSwaggerFiles( HttpServletRequest request )
+    public static List<SwaggerFile> getSwaggerFiles( String strBaseUrl )
     {
         List<SwaggerFile> listSwaggerFiles = new ArrayList<>( );
+        for ( Map.Entry<File, String> descriptor : findDescriptors( ).entrySet( ) )
+        {
+            SwaggerFile swaggerFile = new SwaggerFile( );
+            swaggerFile.setPluginName( descriptor.getValue( ) );
+            swaggerFile.setVersion( descriptor.getKey( ).getParentFile( ).getName( ) );
+            swaggerFile.setPath( strBaseUrl + SERVLET_PATH + getRelativePath( descriptor.getKey( ) ) );
+            listSwaggerFiles.add( swaggerFile );
+        }
+        return listSwaggerFiles;
+    }
+
+    /**
+     * Returns the swagger file of an enabled plugin matching a path relative to the webapp
+     * 
+     * @param strRelativePath
+     *            The path relative to the webapp, as listed by getSwaggerFiles after the servlet path
+     * @return The file, or null when no swagger file of an enabled plugin has this path
+     */
+    public static File getSwaggerFile( String strRelativePath )
+    {
+        return findDescriptors( ).keySet( ).stream( ).filter( file -> getRelativePath( file ).equals( strRelativePath ) ).findFirst( ).orElse( null );
+    }
+
+    /**
+     * Finds the swagger files of the enabled plugins
+     * 
+     * @return The swagger files sorted by path, each with the name of the plugin that ships it
+     */
+    private static Map<File, String> findDescriptors( )
+    {
+        Map<File, String> mapDescriptors = new TreeMap<>( );
         List<File> listSwaggerDirectories = new ArrayList<>( );
         String [ ] filesExtension = {
             EXT_JSON , EXT_YAML
         };
-        File folderWebApp = new File( AppPathService.getWebAppPath( ) + SWAGGER_DIRECTORY_PATH );
-        findDirectory( listSwaggerDirectories, folderWebApp );
+        findDirectory( listSwaggerDirectories, new File( AppPathService.getWebAppPath( ) + SWAGGER_DIRECTORY_PATH ) );
 
         for ( File swaggerDirectory : listSwaggerDirectories )
         {
-            Collection<File> filesSwagger = FileUtils.listFiles( swaggerDirectory, filesExtension, true );
-            for ( File fileSwagger : filesSwagger )
+            String strPluginName = getPluginName( swaggerDirectory );
+            if ( PluginService.isPluginEnable( strPluginName ) )
             {
-                String strPluginName = swaggerDirectory.getParentFile( ).getParentFile( ).getName( );
-                if ( PluginService.isPluginEnable( strPluginName ) )
+                for ( File fileSwagger : FileUtils.listFiles( swaggerDirectory, filesExtension, true ) )
                 {
-                    SwaggerFile swaggerFile = new SwaggerFile( );
-                    swaggerFile.setPluginName( strPluginName );
-                    swaggerFile.setVersion( fileSwagger.getParentFile( ).getName( ) );
-
-                    String relativePath = new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( fileSwagger.toURI( ) ).getPath( );
-                    swaggerFile.setPath( AppPathService.getBaseUrl( request ) + SERVLET_PATH + relativePath );
-
-                    listSwaggerFiles.add( swaggerFile );
+                    mapDescriptors.put( fileSwagger, strPluginName );
                 }
             }
         }
-        return listSwaggerFiles;
+        return mapDescriptors;
+    }
+
+    /**
+     * Returns the name of the plugin that ships a swagger directory: plugins/&lt;plugin&gt;/api/swagger, or
+     * plugins/&lt;plugin&gt;/modules/&lt;module&gt;/api/swagger for the module named &lt;plugin&gt;-&lt;module&gt;
+     * 
+     * @param swaggerDirectory
+     *            The swagger directory
+     * @return The plugin name
+     */
+    private static String getPluginName( File swaggerDirectory )
+    {
+        File pluginDirectory = swaggerDirectory.getParentFile( ).getParentFile( );
+        File modulesDirectory = pluginDirectory.getParentFile( );
+        if ( MODULES_DIRECTORY_NAME.equals( modulesDirectory.getName( ) ) )
+        {
+            return modulesDirectory.getParentFile( ).getName( ) + MODULE_NAME_SEPARATOR + pluginDirectory.getName( );
+        }
+        return pluginDirectory.getName( );
+    }
+
+    /**
+     * Returns the path of a file relative to the webapp
+     * 
+     * @param file
+     *            The file
+     * @return The relative path
+     */
+    private static String getRelativePath( File file )
+    {
+        return new File( AppPathService.getWebAppPath( ) ).toURI( ).relativize( file.toURI( ) ).getPath( );
     }
 
     /**
