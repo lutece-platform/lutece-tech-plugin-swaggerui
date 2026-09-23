@@ -1,102 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="${locale}">
 <head>
-  <title>Swagger UI</title>
-  <link rel="stylesheet"  href="../../css/plugins/swaggerui/reset.css" type="text/css"  media="screen" />
-  <link rel="stylesheet"  href="../../css/plugins/swaggerui/screen.css" type="text/css"  media="screen" />
-  <link rel="stylesheet"  href="../../css/plugins/swaggerui/reset.css" type="text/css"  media="print" />
-  <link rel="stylesheet"  href="../../css/plugins/swaggerui/print.css" type="text/css"  media="print" />
-  <script src="../../js/plugins/swaggerui/lib/jquery-1.8.0.min.js"></script>
+    <meta charset="utf-8">
+    <title>#i18n{swaggerui.swaggeriframe.title}</title>
+    <link rel="stylesheet" href="${base_url}css/plugins/swaggerui/swagger-ui.css">
 </head>
-
 <body>
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            loadSwaggerFile($( "#swagger-select" ).val());
-        });
-    </script>
-    
-    <div class="swagger-section">
-        <select class="form-control" id="swagger-select" onchange="loadSwaggerFile(this.value)">
-            <#list swagger_files_list as swagger_file >
-            <option value="${swagger_file.path}">Plugin ${swagger_file.pluginName} - ${swagger_file.version}</option>
-            </#list>
-        </select>
-        <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-    </div>
-   
-   
-
-    
-  <script src='../../js/plugins/swaggerui/lib/object-assign-pollyfill.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/jquery.slideto.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/handlebars-4.0.5.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/lodash.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/backbone-min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/swagger-ui.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/highlight.9.1.0.pack.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/highlight.9.1.0.pack_extended.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/jsoneditor.min.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/marked.js' type='text/javascript'></script>
-  <script src='../../js/plugins/swaggerui/lib/swagger-oauth.js' type='text/javascript'></script>
-
-  
-  <script type="text/javascript">
-      var url;
-      
-      function loadSwaggerFile( selected ){
-          url = selected;
-      };
-    $(function () {
-        
-      
-      hljs.configure({
-        highlightSizeThreshold: 5000
-      });
-
-      // Pre load translate...
-      if(window.SwaggerTranslator) {
-        window.SwaggerTranslator.translate();
-      }
-      window.swaggerUi = new SwaggerUi({
-        url: url,
-        dom_id: "swagger-ui-container",
-        supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-        onComplete: function(swaggerApi, swaggerUi){
-          if(typeof initOAuth == "function") {
-            initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret-if-required",
-              realm: "your-realms",
-              appName: "your-app-name",
-              scopeSeparator: " ",
-              additionalQueryStringParams: {}
-            });
-          }
-
-          if(window.SwaggerTranslator) {
-            window.SwaggerTranslator.translate();
-          }
-        },
-        onFailure: function(data) {
-          log("Unable to Load SwaggerUI");
-        },
-        docExpansion: "none",
-        jsonEditor: false,
-        defaultModelRendering: 'schema',
-        showRequestHeaders: false
-      });
-
-      window.swaggerUi.load();
-
-      function log() {
-        if ('console' in window) {
-          console.log.apply(console, arguments);
-        }
-      }
-  });
-  </script>
+    <main>
+        <div class="swagger-ui">
+            <div class="wrapper">
+                <label for="swagger-select">#i18n{swaggerui.swaggeriframe.selectLabel}</label>
+                <select id="swagger-select" data-oauth2-redirect-url="${base_url}js/plugins/swaggerui/swagger-ui/oauth2-redirect.html">
+                    <#list swagger_files_list as swagger_file>
+                    <option value="${swagger_file.path}">Plugin ${swagger_file.pluginName} - ${swagger_file.version}</option>
+                    </#list>
+                </select>
+            </div>
+        </div>
+        <div id="swagger-ui-container"></div>
+    </main>
+    <script src="${base_url}js/plugins/swaggerui/swagger-ui/swagger-ui-bundle.js"></script>
+    <script src="${base_url}js/plugins/swaggerui/swaggerui.js"></script>
 </body>
 </html>

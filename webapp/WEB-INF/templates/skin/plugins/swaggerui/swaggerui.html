@@ -1,14 +1,28 @@
-<h1>
-    <img src="images/skin/plugins/swaggerui/swagger-logo.png" width="64">
-    #i18n{swaggerui.swaggeriframe.title}
-</h1>
-
-<#if swagger_files == true>
-<iframe src="jsp/site/Portal.jsp?page=swaggerui&view=swaggeriframe" width="100%" height="1000" style="border: 0px"></iframe>
-<#else>
-    <div class="row" >
-        <div class="col-sm-12">
-            <p>#i18n{swaggerui.files.empty}</p>
-        </div>
-    </div>
-</#if>
+<@cTpl>
+<@cContainer>
+	<@cRow>
+		<@cCol>
+			<@cTitle level=2 class="d-flex align-items-center gap-3">
+				<@cImg src="images/skin/plugins/swaggerui/swagger-logo.png" alt="" class="" params='width="64"' />
+				#i18n{swaggerui.swaggeriframe.title}
+			</@cTitle>
+			<#if swagger_files>
+			<iframe id="swagger-frame" src="jsp/site/Portal.jsp?page=swaggerui&amp;view=swaggeriframe" title="#i18n{swaggerui.swaggeriframe.title}" class="w-100 border-0" height="1000"></iframe>
+			<script>
+			document.getElementById( 'swagger-frame' ).addEventListener( 'load', function( event ) {
+				const frame = event.target;
+				const body = frame.contentDocument.body;
+				const fit = function( ) {
+					frame.style.height = Math.ceil( body.getBoundingClientRect( ).height + parseFloat( getComputedStyle( body ).marginTop ) + parseFloat( getComputedStyle( body ).marginBottom ) ) + 'px';
+				};
+				new ResizeObserver( fit ).observe( body );
+				fit( );
+			} );
+			</script>
+			<#else>
+			<@cAlert type="info" title="#i18n{swaggerui.files.empty}" />
+			</#if>
+		</@cCol>
+	</@cRow>
+</@cContainer>
+</@cTpl>
